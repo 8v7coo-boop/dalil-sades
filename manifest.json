@@ -1,0 +1,11 @@
+{
+  "name": "دليلك للسادس العلمي",
+  "short_name": "دليلك للسادس",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#10233d",
+  "description": "جدول الدراسة والمواد والاختبارات لطلاب السادس العلمي في العراق"
+}

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10233d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="دليلك للسادس">
+<link rel="manifest" href="manifest.json">
+<title>دليلك للسادس العلمي</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#15243a;--muted:#718096;--blue:#246bce;--line:#e3eaf3;--green:#18865b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;padding-bottom:88px}
+header{background:linear-gradient(135deg,#10233d,#174b82);color:white;padding:26px 18px 22px;border-radius:0 0 25px 25px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.eyebrow{font-size:13px;color:#c6dbf5}.brand{font-size:23px;font-weight:800;margin:7px 0}.sub{font-size:14px;color:#d6e5f7;line-height:1.6}
+.wrap{padding:16px;max-width:720px;margin:auto}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:17px}.stat{background:#ffffff17;border:1px solid #ffffff20;border-radius:15px;padding:12px}.stat b{font-size:22px;display:block}.stat span{font-size:12px;color:#d6e5f7}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:4;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 5px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -5px 20px #12243a0c}.nav button{border:0;background:none;color:var(--muted);font-size:12px;padding:8px 2px;border-radius:12px}.nav button.active{background:#eaf2ff;color:var(--blue);font-weight:700}
+h2{font-size:19px;margin:8px 0 12px}.section{margin-top:20px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:14px;margin-bottom:10px;box-shadow:0 3px 12px #1b35500a}.row{display:flex;align-items:center;gap:11px}.grow{flex:1;min-width:0}.muted{color:var(--muted);font-size:13px;line-height:1.6}.pill{font-size:12px;background:#edf4ff;color:#215da9;border-radius:20px;padding:6px 9px;white-space:nowrap}.bar{height:8px;background:#e8edf4;border-radius:20px;overflow:hidden;margin-top:10px}.bar span{height:100%;display:block;background:linear-gradient(90deg,#2874d4,#6eb5ff);border-radius:20px;width:0}.subjectIcon{width:43px;height:43px;border-radius:13px;display:grid;place-items:center;color:#fff;font-size:20px;flex-shrink:0}
+.task{display:flex;align-items:flex-start;gap:10px}.task input{width:20px;height:20px;margin-top:3px;accent-color:var(--blue)}.task.done .tasktitle{text-decoration:line-through;color:var(--muted)}
+button.primary{width:100%;border:0;background:var(--blue);color:white;font-weight:700;padding:13px 16px;border-radius:13px;font-size:15px;margin-top:8px}button.secondary{border:1px solid var(--line);background:white;color:var(--ink);padding:10px 12px;border-radius:12px;font-weight:600}
+input[type=text],textarea,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font:inherit;background:white;color:var(--ink);margin:6px 0}textarea{min-height:100px;resize:vertical}.choice{display:flex;gap:9px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;margin:8px 0}.choice input{accent-color:var(--blue)}.notice{background:#fff8e7;border:1px solid #f3dfaa;padding:12px;border-radius:12px;color:#765619;font-size:13px;line-height:1.7}
+.small{font-size:12px;color:var(--muted)}.hidden{display:none!important}.subjectGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.subjectCard{background:white;border:1px solid var(--line);border-radius:16px;padding:13px;text-align:right;cursor:pointer}.subjectCard b{display:block;margin-top:8px}.subjectCard small{color:var(--muted)}
+footer{text-align:center;font-size:12px;color:var(--muted);padding:18px 8px}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><div><div class="eyebrow">خطة دراستك تبدأ من هنا</div><div class="brand">دليلك للسادس العلمي 🎓</div><div class="sub">خطوة صغيرة كل يوم تقرّبك من معدلك.</div></div><div style="font-size:38px">📚</div></div>
+  <div class="stats">
+    <div class="stat"><b id="doneCount">0/4</b><span>جلسات اليوم مكتملة</span></div>
+    <div class="stat"><b id="percent">0%</b><span>إنجاز خطة اليوم</span></div>
+  </div>
+  <div class="bar"><span id="progressBar"></span></div>
+</header>
+<main class="wrap">
+  <section id="home">
+    <div class="section"><h2>خطة اليوم · 4 ساعات</h2><p class="muted">أربع جلسات أساسية. خذ استراحة 10 دقائق بين الجلسات، وخلي الإنجاز أهم من عدد الساعات.</p>
+      <div id="tasks"></div>
+      <button class="primary" onclick="resetDay()">إعادة ضبط إنجاز اليوم</button>
+    </div>
+    <div class="section"><h2>نصيحة اليوم</h2><div class="card"><b>لا تكتفِ بالقراءة</b><p class="muted">بعد كل درس، أغلق الكتاب وحاول تشرح الفكرة بصوتك أو تحل سؤالاً من دون مساعدة. سجّل أخطاءك وارجع لها غداً.</p></div></div>
+  </section>
+  <section id="subjects" class="hidden">
+    <h2>المواد الدراسية</h2><p class="muted">اختر المادة، ثم اطلب شرحاً أو اختبر نفسك. تأكد من مطابقة ترتيب الدروس لطبعة كتابك المعتمدة.</p>
+    <div class="subjectGrid" id="subjectGrid"></div>
+    <div class="card" id="subjectDetail"><b>اختر مادة</b><p class="muted">ستظهر هنا نقطة بداية مقترحة.</p></div>
+    <button class="primary" onclick="openTutor()">اطلب شرحاً للموضوع المحدد</button>
+  </section>
+  <section id="quiz" class="hidden">
+    <h2>اختبار سريع</h2><div class="card">
+      <span class="pill">فيزياء · سؤال تجريبي</span><p><b>ما وحدة قياس القوة في النظام الدولي؟</b></p>
+      <label class="choice"><input type="radio" name="q" value="نيوتن"> نيوتن (N)</label>
+      <label class="choice"><input type="radio" name="q" value="جول"> جول (J)</label>
+      <label class="choice"><input type="radio" name="q" value="واط"> واط (W)</label>
+      <label class="choice"><input type="radio" name="q" value="متر"> متر (m)</label>
+      <button class="primary" onclick="checkQuiz()">تحقّق من الإجابة</button><p id="quizResult" class="muted" aria-live="polite"></p>
+    </div>
+    <div class="notice">هذا سؤال تدريبي توضيحي، وليس سؤالاً وزارياً موثقاً.</div>
+  </section>
+  <section id="tutor" class="hidden">
+    <h2>المدرّس الذكي 🤖</h2><p class="muted">اكتب طلبك، وسيفتح لك ChatGPT لمتابعة الشرح في المحادثة. لا يوجد ربط API مستقل في هذه النسخة.</p>
+    <div class="card"><label for="tutorSubject">المادة</label><select id="tutorSubject"><option>الرياضيات</option><option>الفيزياء</option><option>الكيمياء</option><option>الأحياء</option><option>اللغة العربية</option><option>اللغة الإنكليزية</option><option>التربية الإسلامية</option></select>
+    <label for="tutorQuestion">شنو تريد تتعلم؟</label><textarea id="tutorQuestion" placeholder="مثلاً: اشرح لي الدرس من الصفر، ثم أعطني أمثلة واختبر فهمي."></textarea>
+    <button class="primary" onclick="openTutor()">ابدأ مع المدرّس الذكي</button></div>
+  </section>
+  <section id="settings" class="hidden">
+    <h2>الإعدادات والمتابعة</h2><div class="card"><b>هدفك اليومي</b><p class="muted">أربع ساعات موزعة على جلسات قصيرة. عدّل الجدول من خلال تحرير أسماء الجلسات في ملف التطبيق إذا احتجت تخصيصاً متقدماً.</p><p class="muted">إنجاز الجلسات محفوظ على هذا الجهاز والمتصفح فقط، ولا يتزامن تلقائياً مع أجهزة أخرى.</p><button class="secondary" onclick="exportProgress()">تنزيل نسخة من إنجازي</button> <button class="secondary" onclick="clearAll()">مسح الإنجاز المحفوظ</button></div>
+    <div class="notice">مهم: هذا نموذج أولي عملي وليس تطبيقاً رسمياً من وزارة التربية. يجب التحقق من الكتب والفصول حسب الطبعة المعتمدة لسنة 2026–2027.</div>
+  </section>
+  <footer>صُمم لمساعدتك على الدراسة خطوة بخطوة ❤️</footer>
+</main>
+<nav class="nav">
+  <button class="active" data-tab="home" onclick="showTab('home',this)">🏠<br>الرئيسية</button>
+  <button data-tab="subjects" onclick="showTab('subjects',this)">📚<br>المواد</button>
+  <button data-tab="quiz" onclick="showTab('quiz',this)">📝<br>اختبار</button>
+  <button data-tab="tutor" onclick="showTab('tutor',this)">🤖<br>مدرّسي</button>
+</nav>
+<script>
+const tasks=[
+ {id:'math',time:'الجلسة 1 · 50 دقيقة',name:'الرياضيات',desc:'فهم درس واحد وحل تمارين عليه',icon:'📐',color:'#3478d4'},
+ {id:'physics',time:'الجلسة 2 · 50 دقيقة',name:'الفيزياء',desc:'فهم فكرة أو قانون ثم تطبيقه',icon:'⚡',color:'#8558cf'},
+ {id:'chem',time:'الجلسة 3 · 50 دقيقة',name:'الكيمياء أو الأحياء',desc:'بدّل بين المادتين حسب خطة الأسبوع',icon:'🧪',color:'#21875b'},
+ {id:'lang',time:'الجلسة 4 · 50 دقيقة',name:'العربي أو الإنكليزي أو الإسلامية',desc:'درس محدد مع تدريب أو تسميع',icon:'📖',color:'#bd6a43'}
+];
+const subjects=[
+ {name:'الرياضيات',icon:'📐',color:'#3478d4',start:'ابدأ من أول فصل في كتابك المعتمد. تعرّف على المفاهيم الأساسية ثم حل أمثلة سهلة.'},
+ {name:'الفيزياء',icon:'⚡',color:'#8558cf',start:'اقرأ مقدمة الفصل الأول في كتابك، واكتب التعاريف والرموز والوحدات قبل المسائل.'},
+ {name:'الكيمياء',icon:'🧪',color:'#21875b',start:'ابدأ بأول موضوع من الطبعة المعتمدة، وسجّل المفاهيم والقوانين والمعادلات.'},
+ {name:'الأحياء',icon:'🌿',color:'#399b65',start:'اقرأ فقرة قصيرة، ثم أغلق الكتاب وسمّع الفكرة والتعاريف من ذاكرتك.'},
+ {name:'اللغة العربية',icon:'✍️',color:'#d65e69',start:'ابدأ بأول موضوع مقرر في كتابك، وافصل بين القاعدة والأمثلة والتطبيق.'},
+ {name:'اللغة الإنكليزية',icon:'🔤',color:'#3977d4',start:'ابدأ بالوحدة الأولى في كتابك، ووزّع وقتك بين القاعدة والمفردات والتطبيق.'},
+ {name:'التربية الإسلامية',icon:'📗',color:'#bd8b2e',start:'ابدأ بأول موضوع مقرر، افهم المعنى أولاً ثم احفظ على أجزاء وسمّع.'}
+];
+let selectedSubject='الرياضيات';
+let state=JSON.parse(localStorage.getItem('dalilProgress')||'{}');
+function save(){localStorage.setItem('dalilProgress',JSON.stringify(state));renderTasks()}
+function renderTasks(){
+ const el=document.getElementById('tasks');el.innerHTML='';
+ tasks.forEach(t=>{let checked=!!state[t.id];el.insertAdjacentHTML('beforeend',`<div class="card task ${checked?'done':''}"><input aria-label="إكمال ${t.name}" type="checkbox" ${checked?'checked':''} onchange="toggleTask('${t.id}',this.checked)"><div class="grow"><div class="tasktitle"><b>${t.name}</b></div><div class="muted">${t.desc}</div><div class="small">${t.time}</div></div><div class="subjectIcon" style="background:${t.color}">${t.icon}</div></div>`)});
+ const n=tasks.filter(t=>state[t.id]).length,p=Math.round(n/tasks.length*100);
+ document.getElementById('doneCount').textContent=n+'/'+tasks.length;
+ document.getElementById('percent').textContent=p+'%';
+ document.getElementById('progressBar').style.width=p+'%';
+}
+function toggleTask(id,v){state[id]=v;save()}
+function resetDay(){if(confirm('إعادة ضبط إنجاز جلسات اليوم؟')){state={};save()}}
+function clearAll(){if(confirm('مسح جميع الإنجازات المحفوظة على هذا الجهاز؟')){state={};localStorage.removeItem('dalilProgress');renderTasks()}}
+function showTab(id,btn){
+ document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
+ document.getElementById(id).classList.remove('hidden');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b===btn));
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderSubjects(){
+ const el=document.getElementById('subjectGrid');el.innerHTML='';
+ subjects.forEach(s=>el.insertAdjacentHTML('beforeend',`<button class="subjectCard" onclick="selectSubject('${s.name}')"><span class="subjectIcon" style="background:${s.color}">${s.icon}</span><b>${s.name}</b><small>عرض نقطة البداية</small></button>`));
+}
+function selectSubject(name){selectedSubject=name;const s=subjects.find(x=>x.name===name);document.getElementById('subjectDetail').innerHTML=`<b>${s.icon} ${s.name}</b><p class="muted">${s.start}</p>`;document.getElementById('tutorSubject').value=name==='العربي'?'اللغة العربية':name==='الإنكليزي'?'اللغة الإنكليزية':name==='الإسلامية'?'التربية الإسلامية':name}
+function checkQuiz(){const a=document.querySelector('input[name="q"]:checked');const r=document.getElementById('quizResult');if(!a){r.textContent='اختار إجابة أولاً.';return}r.textContent=a.value==='نيوتن'?'إجابة صحيحة! القوة تقاس بالنيوتن (N).':'مو صحيح هالمرة. الإجابة الصحيحة هي نيوتن (N).';}
+function openTutor(){const s=document.getElementById('tutorSubject').value;const q=document.getElementById('tutorQuestion').value.trim()||'ابدأ معي من الصفر في أول موضوع من كتابي المعتمد، واشرح بأسلوب بسيط ثم اختبر فهمي.';const prompt=`أنت مدرسي الخصوصي للسادس العلمي في العراق بنظام الانتساب. اشرح بالعربية السهلة وباللهجة العراقية عند الحاجة. المادة: ${s}. طلبي: ${q} لا تفترض أنني أتقنت الأساسيات، واسألني عن عنوان الدرس أو صورة صفحة الكتاب إذا احتجت التأكد من الطبعة.`;window.open('https://chatgpt.com/?q='+encodeURIComponent(prompt),'_blank','noopener')}
+function exportProgress(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='dalil-progress.json';a.click();URL.revokeObjectURL(a.href)}
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+renderTasks();renderSubjects();selectSubject('الرياضيات');
+</script>
+</body>
+</html>
